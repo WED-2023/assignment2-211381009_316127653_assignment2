@@ -4,8 +4,15 @@
  */
 
 // Audio elements
-let shootSound, enemyExpolsionSound, hurtByEnemiesSound, gameMusic;
+let shootSound, enemyExplosionSound, hurtByEnemiesSound, gameMusic;
 let audioEnabled = true;
+
+// Detect base path depending on hosting location (GitHub Pages vs local)
+const basePath = window.location.pathname.includes(
+  "assignment2-211381009_316127653_assignment2"
+)
+  ? "/assignment2-211381009_316127653_assignment2/"
+  : "./";
 
 /**
  * Initialize audio system
@@ -13,7 +20,7 @@ let audioEnabled = true;
 function initAudio() {
   // Create audio elements
   shootSound = createAudioElement("shoot");
-  enemyExpolsionSound = createAudioElement("enemyExpolsion");
+  enemyExplosionSound = createAudioElement("enemyExplosion");
   hurtByEnemiesSound = createAudioElement("hurtByEnemies");
   gameMusic = createAudioElement("music", true);
 
@@ -25,7 +32,7 @@ function initAudio() {
 
 /**
  * Create an audio element
- * @param {string} type - The type of sound (shoot, enemyExpolsion, hurtByEnemies, music)
+ * @param {string} type - The type of sound (shoot, enemyExplosion, hurtByEnemies, music)
  * @param {boolean} loop - Whether the audio should loop
  * @returns {HTMLAudioElement} - The created audio element
  */
@@ -35,20 +42,16 @@ function createAudioElement(type, loop = false) {
 
   switch (type) {
     case "shoot":
-      // Shoot sound
-      audio.src = "./assets/audio/shoot.mp3";
+      audio.src = `${basePath}assets/audio/shoot.mp3`;
       break;
-    case "enemyExpolsion":
-      // enemyExpolsion sound
-      audio.src = "./assets/audio/target_hit.OGG";
+    case "enemyExplosion":
+      audio.src = `${basePath}assets/audio/target_hit.ogg`;
       break;
     case "hurtByEnemies":
-      // hurtByEnemies sound
-      audio.src = "./assets/audio/target_hit.mp3";
+      audio.src = `${basePath}assets/audio/target_hit.mp3`;
       break;
     case "music":
-      // Background music
-      audio.src = "./assets/audio/background.mp3";
+      audio.src = `${basePath}assets/audio/background.mp3`;
       break;
   }
 
@@ -60,7 +63,7 @@ function createAudioElement(type, loop = false) {
  */
 function setVolumeLevels() {
   if (shootSound) shootSound.volume = 0.1;
-  if (enemyExpolsionSound) enemyExpolsionSound.volume = 0.05;
+  if (enemyExplosionSound) enemyExplosionSound.volume = 0.05;
   if (hurtByEnemiesSound) hurtByEnemiesSound.volume = 0.2;
   if (gameMusic) gameMusic.volume = 0.2; // Lower volume for background music
 }
@@ -73,7 +76,6 @@ function playSound(sound) {
   if (!audioEnabled || !sound || !sound.src) return;
 
   try {
-    // Clone the sound to allow overlapping playback
     const soundClone = sound.cloneNode();
     soundClone.volume = sound.volume;
     soundClone.play().catch((error) => {
@@ -122,10 +124,8 @@ function toggleAudio() {
   audioEnabled = !audioEnabled;
 
   if (!audioEnabled) {
-    // Mute all sounds
     stopGameMusic();
   } else if (gameStarted && !gameEnded) {
-    // Resume music if game is in progress
     startGameMusic();
   }
 
@@ -139,7 +139,7 @@ function toggleAudio() {
 function preloadAudio() {
   const audioElements = [
     shootSound,
-    enemyExpolsionSound,
+    enemyExplosionSound,
     hurtByEnemiesSound,
     gameMusic,
   ];
@@ -149,14 +149,9 @@ function preloadAudio() {
     if (!audio || !audio.src) continue;
 
     const promise = new Promise((resolve) => {
-      // Set up event listeners for loading
       audio.addEventListener("canplaythrough", resolve, { once: true });
       audio.addEventListener("error", resolve, { once: true });
-
-      // Add timeout to prevent hanging if loading takes too long
       setTimeout(resolve, 3000);
-
-      // Start loading
       audio.load();
     });
 

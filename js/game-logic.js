@@ -96,8 +96,10 @@ function initGameLogic() {
 function handleKeyDown(e) {
   // Prevent default scrolling for game navigation keys
   if (
-    ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code))
-    {
+    ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(
+      e.code
+    )
+  ) {
     e.preventDefault();
   }
 
@@ -436,8 +438,8 @@ function checkCollisions() {
         // Update display
         updateGameStats();
 
-        // Play enemyExpolsion sound
-        playSound(enemyExpolsionSound);
+        // Play enemyenemyExplosion sound
+        playSound(enemyExplosionSound);
 
         break; // Bullet can only hit one enemy
       }
@@ -484,7 +486,6 @@ function checkGameEndConditions() {
     endGame("champion");
     return;
   }
-
 }
 
 /**
@@ -529,4 +530,3 @@ function endGame(reason) {
   // Show game over screen
   showScreen("gameOver");
 }
-
