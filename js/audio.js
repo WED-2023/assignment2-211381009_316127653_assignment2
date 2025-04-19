@@ -36,19 +36,19 @@ function createAudioElement(type, loop = false) {
   switch (type) {
     case "shoot":
       // Shoot sound
-      audio.src = "../assets/audio/shoot.mp3";
+      audio.src = "./assets/audio/shoot.mp3";
       break;
     case "enemyExpolsion":
       // enemyExpolsion sound
-      audio.src = "../assets/audio/target_hit.OGG";
+      audio.src = "./assets/audio/target_hit.OGG";
       break;
     case "hurtByEnemies":
       // hurtByEnemies sound
-      audio.src = "../assets/audio/target_hit.mp3";
+      audio.src = "./assets/audio/target_hit.mp3";
       break;
     case "music":
       // Background music
-      audio.src = "../assets/audio/background.mp3";
+      audio.src = "./assets/audio/background.mp3";
       break;
   }
 
@@ -137,7 +137,12 @@ function toggleAudio() {
  * @returns {Promise} - Resolves when all audio is loaded or on timeout
  */
 function preloadAudio() {
-  const audioElements = [shootSound, enemyExpolsionSound, hurtByEnemiesSound, gameMusic];
+  const audioElements = [
+    shootSound,
+    enemyExpolsionSound,
+    hurtByEnemiesSound,
+    gameMusic,
+  ];
   const promises = [];
 
   for (const audio of audioElements) {
